@@ -7,9 +7,6 @@ import { ItemList } from '../src/component/ItemList';
 import { Divider, Header, Loader } from 'semantic-ui-react';
 
 export default function Home({list}) {
-  useEffect({
-
-  },[]);
 
   return (
     <div>
