@@ -7,22 +7,7 @@ import { useEffect, useState } from 'react';
 import { ItemList } from '../src/component/ItemList';
 import { Divider, Header, Loader } from 'semantic-ui-react';
 
-export default function Home() {
-
-  const [list, setList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const API_URL = "http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline";
-
-  const callApi = async () => {
-    const res = await axios.get(API_URL);
-    console.log(res.data);
-    setList(res.data);
-    setIsLoading(false);
-  };
-
-  useEffect(()=> {
-    callApi();
-  }, []);
+export default function Home({list}) {
 
   return (
     <div>
@@ -30,15 +15,6 @@ export default function Home() {
         <title>HOME | lookinmin</title>
         <meta name='description' content='민수의 nextJS 실습'></meta>
       </Head>
-      {isLoading && (
-        <div style={{padding: "300px"}}>
-          <Loader inline="centered" active>
-            Loading
-          </Loader>
-        </div>
-      )}
-
-      {!isLoading && (
         <>
           <Header as="h3" style={{paddingTop: 40}}>베스트 상품</Header>
             <Divider/>
@@ -47,11 +23,22 @@ export default function Home() {
             <Header as="h3" style={{paddingTop: 40}}>신상품</Header>
             <Divider/>
           <ItemList list={list.slice(9)}/>
-        </>
-      )}
-      
+        </> 
     </div>
   )
+}
+
+export async function getStaticProps(){
+  const api = process.env.apiUrl;
+  const res = await axios.get(api);
+  const data = res.data;
+
+  return{
+    props:{
+      list: data,
+      name: process.env.name,
+    },
+  };
 }
 
 

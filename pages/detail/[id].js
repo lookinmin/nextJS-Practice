@@ -25,9 +25,23 @@ const Post = ({item, name}) => {
 
 export default Post
 
+//static 생성으로 각 id에 해당하는 제품 보여주기
+//html을 미리 생성 후 렌더 -> 그만큼 빠르나 path를 지정해줘야되는 부분에서 불편
+
+export async function getStaticPaths(){
+  return{
+    paths: [
+      {params: {id: '740'}},      //id를 미리 받아 정적으로 생성
+      {params: {id: '730'}},
+      {params: {id: '729'}},
+    ],
+    fallback: true                //fallback 이 true면 id가 정해지지 않은 item들은 동적생성
+  };
+}
+
 //getServerSideProps는 brower 환경이 아님, 즉 프론트엔드에서 처리되는 부분이 아니라
 //Node JS에서 처리되는 부분, 해당 코드는 백엔드처럼 돌아감
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const id = context.params.id;
   const API = `http://makeup-api.herokuapp.com/api/v1/products/${id}.json`;
   const res = await axios.get(API);

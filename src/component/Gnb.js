@@ -17,6 +17,8 @@ export const Gnb = () => {
       router.push("/");
     }else if(data.name === 'about'){
       router.push("/about");
+    }else if(data.name === 'contact'){
+      router.push("/contact");
     }
   }
 
@@ -34,6 +36,11 @@ export const Gnb = () => {
       <Menu.Item
         name='about'
         active={activeItem === 'about'}
+        onClick={goLink}
+      />
+      <Menu.Item
+        name='Contact Us'
+        active={activeItem === 'contact'}
         onClick={goLink}
       />
     </Menu>
