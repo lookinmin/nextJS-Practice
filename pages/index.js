@@ -1,6 +1,5 @@
-import { Axios } from 'axios';
+
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,9 @@ import { ItemList } from '../src/component/ItemList';
 import { Divider, Header, Loader } from 'semantic-ui-react';
 
 export default function Home({list}) {
+  useEffect({
+
+  },[]);
 
   return (
     <div>

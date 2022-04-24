@@ -6,6 +6,17 @@ import { Loader } from 'semantic-ui-react';
 import Head from 'next/dist/shared/lib/head';
 
 const Post = ({item, name}) => {
+  const router = useRouter();
+
+  if(router.isFallback){
+    return(
+      <div style={{padding: "100px 0"}}>
+        <Loader active inline="centered">
+          Loading
+        </Loader>
+      </div>
+    )
+  }
 
   return(
     <>
@@ -29,12 +40,21 @@ export default Post
 //html을 미리 생성 후 렌더 -> 그만큼 빠르나 path를 지정해줘야되는 부분에서 불편
 
 export async function getStaticPaths(){
+  const api = process.env.apiUrl;
+  const res = await axios.get(api);
+  const data = res.data;
+
   return{
-    paths: [
-      {params: {id: '740'}},      //id를 미리 받아 정적으로 생성
-      {params: {id: '730'}},
-      {params: {id: '729'}},
-    ],
+    // paths: [
+    //   {params: {id: '495'}},      //id를 미리 받아 정적으로 생성
+    //   {params: {id: '488'}},
+    //   {params: {id: '477'}},
+    // ],
+    paths : data.map(item => ({
+      params : {
+        id: item.id.toString(),
+      }
+    })),
     fallback: true                //fallback 이 true면 id가 정해지지 않은 item들은 동적생성
   };
 }
